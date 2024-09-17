@@ -1,0 +1,51 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+.top-picks, .recently-added {
+    padding: 20px;
+    text-align: center;
+}
+.highlight-video, .video {
+    margin-top: 20px;
+}
+.highlight-video img, .video img {
+    width: 100%; /* Adjust based on your specific layout */
+    height: auto;
+}
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.video {
+    width: 300px;
+    margin: 10px;
+    box-shadow: 0 0 10px #ccc;
+    padding: 10px;
+}

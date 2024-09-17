@@ -1,0 +1,47 @@
+<!-- Payment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Your Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Payment for Access</h1>
+    <div id="card-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+    <button id="submit">Submit Payment</button>
+
+    <script>
+        var stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx'); // Use your public key
+        var elements = stripe.elements();
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        document.getElementById('submit').addEventListener('click', function(e) {
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    console.log(result.error.message);
+                } else {
+                    // Send the token to your server
+                    fetch('/save-stripe-token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({token: result.token.id})
+                    }).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        if(data.success) {
+                            // Proceed with authentication
+                            window.location.href = '/authenticate'; // Custom route to handle Auth0
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

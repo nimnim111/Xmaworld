@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Video Display</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: white;
+            padding: 10px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+        .logo-search {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 30px;
+            vertical-align: middle;
+            margin-right: 0;
+        }
+        .nav-buttons, .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        button {
+            background: none;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            text-decoration: underline;
+        }
+        .search-box {
+            border: 2px solid #ccc;
+            padding: 10px;
+            border-radius: 20px;
+            outline: none;
+            width: 300px;
+            vertical-align: middle;
+        }
+        .video-container {
+            padding: 56.25% 0 0 0; /* 16:9 Aspect Ratio */
+            position: relative;
+            transition: padding 0.5s ease;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .video-container.fullscreen {
+            padding: 30% 0 0 0; /* Adjust for larger view */
+            width: 95%;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .video-details {
+            text-align: center;
+            margin: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+        #toggle-theatre {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+<script src="app.js"></script>
+    <button id="toggle-theatre">Toggle Theatre Mode</button>
+    <div class="header">
+        <div class="logo-search">
+            <img src="xma_world_logos-03.png" class="logo" alt="Logo">
+            <input type="text" id="search-input" class="search-box" placeholder="Search for a video...">
+        </div>
+        <div class="nav-buttons">
+            <button>Video Library</button>
+            <button>Programmes</button>
+            <button>Athletes</button>
+            <button>Features</button>
+            <button>Store</button>
+        </div>
+        <div class="auth-buttons">
+            <button id="login-btn">Login</button>
+            <button id="signup-btn">Signup</button>
+        </div>
+    </div>
+    
+    <div class="video-container">
+        <div style="padding:56.25% 0 0 0;position:relative;">
+            <iframe id="vimeoVideo" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+    
+        <script>
+            // Function to get query parameter value by name
+            function getQueryParam(name) {
+                const search = window.location.search;
+                const params = new URLSearchParams(search);
+                return params.get(name);
+            }
+    
+            // Get the 'key' query parameter value which should be the Vimeo video ID
+            const vimeoId = getQueryParam('key');
+    
+            // Construct the Vimeo embed URL with the video ID
+            const vimeoUrl = `https://player.vimeo.com/video/${vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
+    
+            // Set the src attribute of the iframe to the Vimeo URL
+            document.getElementById('vimeoVideo').src = vimeoUrl;
+        </script></div>
+    <div class="video-details">
+        <h1>Big</h1>
+        <p>Category: Martial Arts Tricks</p>
+    </div>
+</body>
+</html>
+html lang="en">
