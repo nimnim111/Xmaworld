@@ -1,7 +1,0 @@
-[
-  {"id": 1, "name": "kick-basics", "videoID": "123456789", "url": "kick-basics.html?key=1234", "category": "Hand Combo"},
-  {"id": 2, "name": "Punch Techniques", "videoID": "987654321", "url": "test.html", "category": "Hand Combo"},
-  {"id": 3, "name": "Blocking Essentials", "videoID": "234567891", "url": "blocking-essentials.html", "category": "Weapon Release"},
-  {"id": 4, "name": "Advanced Kicks", "videoID": "345678912", "url": "advanced-kicks.html", "category": "Weapon Combo"},
-  {"id": 5, "name": "Advanced Kicks", "videoID": "456789123", "url": "advanced-kicks.html", "category": "Weapon Combo"}
-]
