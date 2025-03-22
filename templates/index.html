@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tricktionary - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+  <!-- Header with Search Bar -->
+  <header class="bg-white shadow p-4 flex items-center justify-between">
+    <!-- Left: Logo/Title -->
+    <h1 class="text-2xl font-bold">Tricktionary</h1>
+
+    <!-- Center: Search Form (inline) -->
+    <form method="GET" action="/" class="flex items-center space-x-2">
+      <input
+        type="text"
+        name="q"
+        placeholder="Search by Trick Name..."
+        value="{{ request.args.get('q', '') }}"
+        class="border border-gray-300 rounded-l px-3 py-2 w-48 focus:outline-none focus:ring"
+      />
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700 focus:outline-none focus:ring"
+      >
+        Search
+      </button>
+    </form>
+
+    <!-- Right: 'Add New Trick' Button -->
+    <a href="/add" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 ml-4">
+      Add New Trick
+    </a>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8">
+    <!-- Heading -->
+    <h2 class="text-3xl font-bold mb-8 text-center">
+      {% if request.args.get('q') %}
+        <!-- If the user searched, show 'Search Results' -->
+        Search Results
+      {% else %}
+        <!-- Otherwise, normal heading -->
+        Tricking Encyclopedia
+      {% endif %}
+    </h2>
+
+    {% if tricks %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for trick in tricks %}
+          <!-- Entire card is now clickable anchor -->
+          <a
+            href="{{ trick.link }}"
+            class="group relative isolate flex flex-col justify-end overflow-hidden
+                   rounded-lg shadow hover:shadow-lg transition-all duration-300
+                   aspect-square bg-gray-200"
+          >
+            <!-- Image or Video Preview -->
+            {% if trick.image %}
+              <img
+                src="{{ url_for('static', filename=trick.image) }}"
+                alt="{{ trick.name }}"
+                class="absolute inset-0 w-full h-full object-cover
+                       filter grayscale group-hover:grayscale-0
+                       transition-all duration-300"
+              >
+            {% elif trick.videofile %}
+              <video
+                class="absolute inset-0 w-full h-full object-cover
+                       filter grayscale group-hover:grayscale-0
+                       transition-all duration-300"
+                muted
+                loop
+                preload="metadata"
+              >
+                <source src="{{ url_for('static', filename=trick.videofile) }}" type="video/mp4">
+              </video>
+              <!-- Optional play icon overlay -->
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="bg-black bg-opacity-50 rounded-full p-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white"
+                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M14.752 11.168l-3.197-2.132A1 1 0
+                             0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132
+                             a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+            {% else %}
+              <div class="w-full h-full flex items-center justify-center">
+                <p class="text-gray-500">No preview available</p>
+              </div>
+            {% endif %}
+
+            <!-- Dark gradient overlay -->
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40
+                     opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+            ></div>
+
+            <!-- Trick Name Over Image -->
+            <div class="absolute bottom-0 left-0 right-0 z-10 p-4">
+              <h3 class="text-lg font-bold text-white">
+                {{ trick.name }}
+              </h3>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-12">
+        {% if request.args.get('q') %}
+          <p class="text-xl text-gray-600 mb-6">
+            No tricks match your search. Try again!
+          </p>
+        {% else %}
+          <p class="text-xl text-gray-600 mb-6">
+            No tricks added yet. Be the first to add one!
+          </p>
+        {% endif %}
+        <a href="/add" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">
+          Add Your First Trick
+        </a>
+      </div>
+    {% endif %}
+
+    <!-- Single featured card section -->
+    {% if card %}
+      <div class="mt-12 mb-6">
+        <h2 class="text-2xl font-bold mb-4 text-center">Featured Trick</h2>
+        <div class="flex justify-center">
+          <a
+            href="{{ card.link }}"
+            class="group relative isolate flex flex-col justify-end overflow-hidden
+                   rounded-2xl px-8 pb-8 pt-40 transition duration-300
+                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            style="width: 300px; height: 300px;"
+          >
+            <img
+              src="{{ url_for('static', filename=card.image) }}"
+              alt="{{ card.name }}"
+              class="absolute inset-0 w-full h-full object-cover
+                     filter grayscale group-hover:grayscale-0
+                     transition-all duration-300"
+            />
+            <!-- Gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+            <h3 class="z-10 text-3xl font-bold text-white text-center">
+              {{ card.name }}
+            </h3>
+          </a>
+        </div>
+      </div>
+    {% endif %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow text-center py-4 mt-auto">
+    <p class="text-sm text-gray-600">&copy; 2025 Tricktionary. All rights reserved.</p>
+  </footer>
+</body>
+</html>

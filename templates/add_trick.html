@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add a New Trick</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex justify-between">
+    <h1 class="text-2xl font-bold">Tricktionary</h1>
+    <a href="/" class="text-blue-600 hover:underline">Back to Home</a>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8">
+    <div class="w-[640px] mx-auto bg-white p-6 rounded shadow">
+      <h2 class="text-2xl font-bold mb-4">Add a New Trick</h2>
+
+      <!-- Display flashed messages if any -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="mb-4">
+            {% for msg in messages %}
+              <p class="text-red-600">{{ msg }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form
+        action="{{ url_for('add_trick') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-4"
+      >
+        <!-- Trick Name -->
+        <div>
+          <label class="block font-semibold mb-1" for="trick_name">Trick Name <span class="text-red-500">*</span></label>
+          <input
+            type="text"
+            id="trick_name"
+            name="trick_name"
+            class="w-full border rounded p-2 focus:outline-none focus:ring"
+            placeholder="E.g. Cheat 900"
+            required
+          />
+        </div>
+
+        <!-- Athlete -->
+        <div>
+          <label class="block font-semibold mb-1" for="athlete">Athlete <span class="text-red-500">*</span></label>
+          <input
+            type="text"
+            id="athlete"
+            name="athlete"
+            class="w-full border rounded p-2 focus:outline-none focus:ring"
+            placeholder="E.g. John Doe"
+            required
+          />
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block font-semibold mb-1" for="description">Description <span class="text-red-500">*</span></label>
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            class="w-full border rounded p-2 focus:outline-none focus:ring"
+            placeholder="Provide a short description..."
+            required
+          ></textarea>
+        </div>
+
+        <!-- Image File -->
+        <div>
+          <label class="block font-semibold mb-1" for="image_file">Image File (optional)</label>
+          <input
+            type="file"
+            id="image_file"
+            name="image_file"
+            accept="image/*"
+            class="w-full"
+          />
+        </div>
+
+        <!-- Video File -->
+        <div>
+          <label class="block font-semibold mb-1" for="video_file">Video File (optional)</label>
+          <input
+            type="file"
+            id="video_file"
+            name="video_file"
+            accept="video/*"
+            class="w-full"
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Save Trick
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow text-center py-4 mt-auto">
+    <p class="text-sm text-gray-500">© 2025 My Tricking Project</p>
+  </footer>
+</body>
+</html>
